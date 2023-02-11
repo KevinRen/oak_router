@@ -1,0 +1,4 @@
+{
+	"yaml_loader": "https://deno.land/x/yaml_loader/mod.ts",
+	"jsonc": "https://deno.land/x/jsonc/main.ts"
+}

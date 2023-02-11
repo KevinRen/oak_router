@@ -1,0 +1,5 @@
+deno.lock
+.vscode
+.dist
+.idea
+test/*
