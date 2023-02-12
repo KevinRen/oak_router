@@ -32,32 +32,32 @@ class Access {
   * @returns {void}
   */
   @oakRouter({
-		method: 'POST',
-		auth: false
+    method: 'POST',
+    auth: false
 	})
 	async login({ response }: { response: Oak.Response }) {
-		response.status = 200;
-		response.body = {
-			status: true,
-			data: {
-				message: 'access.login',
-			},
-		}
-	}
+    response.status = 200;
+    response.body = {
+      status: true,
+      data: {
+        message: 'access.login',
+      },
+    }
+  }
 
   // create a GET routing method with auth authentication
   @oakRouter({
-		method: 'GET',
+    method: 'GET',
 	})
 	detail({ response }: { response: Oak.Response }) {
-		response.status = 200;
-		response.body = {
-			status: true,
-			data: {
-				message: 'access.detail'
-			},
-		}
-	}
+    response.status = 200;
+    response.body = {
+      status: true,
+      data: {
+        message: 'access.detail'
+      },
+    }
+  }
 }
 
 // export router class
@@ -79,9 +79,9 @@ app.use(routerBuilder.router.routes());
 app.use(routerBuilder.router.allowedMethods());
 
 app.addEventListener('listen', ({ secure, hostname, port }) => {
-	const protocol = secure ? 'https://' : 'http://';
-	const url = `${protocol}${hostname ?? 'localhost'}:${port}`;
-	console.log(`\n server Listening on: ${ url }\n`);
+  const protocol = secure ? 'https://' : 'http://';
+  const url = `${protocol}${hostname ?? 'localhost'}:${port}`;
+  console.log(`\n server Listening on: ${ url }\n`);
 });
 
 await app.listen({ port: 8080 });
