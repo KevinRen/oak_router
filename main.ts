@@ -31,7 +31,6 @@ export class RouterBuilder {
   }
 
   private async authDefault(_: Oak.Context, next: Next) {
-    console.log('router without auth');
     await next();
   }
 
