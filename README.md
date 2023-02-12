@@ -1,6 +1,6 @@
 # Oak-RouterBuilder
 
-A Deno-oak based routing extension.
+RESTful API routing extension based on Deno-oak.
 
 It allows developers to say goodbye to the long handwritten route definition and use the `@oakRouter` decorator to describe the route and its method.
 
