@@ -20,7 +20,7 @@ Use `oakRouter` decorator to implement two routing methods in Access class
 ```typescript
 // access.v1.ts
 
-import { Oak, oakRouter } from 'https://deno.land/x/oak-router@VERSION/mod.ts';
+import { Oak, oakRouter } from 'https://deno.land/x/oak_router@VERSION/mod.ts';
 
 class Access {
 
@@ -69,7 +69,7 @@ export { Access }
 ```typescript
 // main.ts
 
-import { Oak, RouterBuilder } from 'https://deno.land/x/oak-router@VERSION/mod.ts';
+import { Oak, RouterBuilder } from 'https://deno.land/x/oak_router@VERSION/mod.ts';
 import auth from './middleware/auth.ts';
 
 const app = new Oak.Application();
@@ -115,7 +115,7 @@ The validation function
 ```typescript
 // auth.ts
 
-import { Next, Oak } from 'https://deno.land/x/oak-router@VERSION/mod.ts';
+import { Next, Oak } from 'https://deno.land/x/oak_router@VERSION/mod.ts';
 
 const jwtAuth = async (_: Oak.Context, next: Next) => {
   console.log('router with auth');
