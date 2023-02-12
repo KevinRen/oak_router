@@ -1,4 +1,4 @@
-import { Response, oakRouter } from '../deps.ts';
+import { Oak, oakRouter } from '../deps.ts';
 import auth from '../middleware/auth.ts'
 
 class UserEnter {
@@ -6,7 +6,7 @@ class UserEnter {
 	@oakRouter({
 		method: 'PUT',
 	})
-	logout({ response }: { response: Response }) {
+	logout({ response }: { response: Oak.Response }) {
 		response.status = 200;
 		response.body = {
 			status: true,
@@ -19,7 +19,7 @@ class UserEnter {
 	@oakRouter({
 		method: 'POST',
 	})
-	register({ response }: { response: Response }) {
+	register({ response }: { response: Oak.Response }) {
 		response.status = 200;
 		response.body = {
 			status: true,
@@ -33,7 +33,7 @@ class UserEnter {
 		method: 'POST',
 		auth: false
 	})
-	async login({ response }: { response: Response }) {
+	async login({ response }: { response: Oak.Response }) {
 		response.status = 200;
 		response.body = {
 			status: true,

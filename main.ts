@@ -9,13 +9,68 @@ import {
    isClass,
    Target,
    RouteMapItem,
-   RouterMethodType
+   RouterMethodType,
+   Middleware,
+   Next
  } from './utils.ts';
-import { Reflect, red } from './deps.ts';
+import { Oak, Reflect, red, green } from './deps.ts';
 
 export class RouterBuilder {
 
-  public async disassemble(controllerDirPath: string, dirName?: string): Promise<RouteMapItem[]> {
+  router: Oak.Router;
+
+  private routerCount: number;
+
+  private startTime: number;
+
+  constructor(controllerDirPath: string, authMiddleware?: Middleware) {
+    this.router = new Oak.Router();
+    this.routerCount = 0;
+    this.startTime = Date.now();
+    this.buildRouters(controllerDirPath, authMiddleware);
+  }
+
+  private async authDefault(_: Oak.Context, next: Next) {
+    console.log('router without auth');
+    await next();
+  }
+
+  private async buildRouters(controllerDirPath: string, authMiddleware?: Middleware,) {
+    const routerMap: RouteMapItem[] = await this.disassemble(controllerDirPath);
+    routerMap.forEach((item: RouteMapItem) => {
+      const auth: Middleware = authMiddleware && item.auth ? authMiddleware : this.authDefault;
+      switch (item.method) {
+        case 'GET':
+          this.router.get(item.handle, item.router!, auth, item.fn);
+          break;
+        case 'POST':
+          this.router.post(item.handle, item.router!, auth, item.fn);
+          break;
+        case 'PUT':
+          this.router.put(item.handle, item.router!, auth, item.fn);
+          break;
+        case 'DELETE':
+          this.router.delete(item.handle, item.router!, auth, item.fn);
+          break;
+        case 'HEAD':
+          this.router.head(item.handle, item.router!, auth, item.fn);
+          break;
+        case 'OPTIONS':
+          this.router.options(item.handle, item.router!, auth, item.fn);
+          break;
+        case 'PATCH':
+          this.router.patch(item.handle, item.router!, auth, item.fn);
+          break;
+      }
+      this.routerCount++;
+      console.log(green(`${ Deno.realPathSync(controllerDirPath) }/${ item.dirEntry } => [${ item.method }] ${ item.router }`));
+    });
+    const ms = Date.now() - this.startTime;
+
+    setTimeout(() => console.log(green(`\nRouterBuild done. ${ this.routerCount }个路由完成初始化... ${ ms }ms\n`)), 0);
+  }
+
+  private async disassemble(controllerDirPath: string, dirName?: string): Promise<RouteMapItem[]> {
     const controllerPath = Deno.realPathSync(controllerDirPath);
 
     let routers: RouteMapItem[] = [];

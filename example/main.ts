@@ -1,10 +1,11 @@
-import { Application,  } from './deps.ts';
-import router from './router.ts';
+import { Oak, RouterBuilder } from './deps.ts';
+import auth from './middleware/auth.ts';
 
-const app = new Application();
+const app = new Oak.Application();
+const routerBuilder = new RouterBuilder('./controllers', auth.jwtAuth);
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.use(routerBuilder.router.routes());
+app.use(routerBuilder.router.allowedMethods());
 
 app.addEventListener('listen', ({ secure, hostname, port }) => {
 	const protocol = secure ? 'https://' : 'http://';

@@ -1,14 +1,14 @@
-import { Context } from './deps.ts';
+import { Oak } from './deps.ts';
 
-export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
+export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'PATCH';
 
-export type MiddlewareHandle = (context: Context, next: Next) => void;
+export type Next = () => Promise<unknown> | unknown;
+
+export type Middleware = (context: Oak.Context, next: Next) => void;
 
 export type Constructor = new (...args: any[]) => any;
 
 export type Target = Constructor & Record<string, unknown>;
-
-export type Next = () => Promise<unknown>;
 
 export function isConstructor(argument: any): argument is Function {
 	return typeof argument === 'function';
@@ -32,7 +32,7 @@ export interface RouteMapItem {
 	router?: string;
 	dirEntry?: string;
 	method: Method;
-	fn: MiddlewareHandle;
+	fn: Middleware;
 	handle: string;
 	auth: boolean;
 }
