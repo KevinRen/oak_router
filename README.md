@@ -73,7 +73,7 @@ import { Oak, RouterBuilder } from 'https://deno.land/x/oak-router@VERSION/mod.t
 import auth from './middleware/auth.ts';
 
 const app = new Oak.Application();
-const routerBuilder = new RouterBuilder('./controllers', auth.jwtAuth);
+const routerBuilder = new RouterBuilder('./controllers');
 
 app.use(routerBuilder.router.routes());
 app.use(routerBuilder.router.allowedMethods());
@@ -125,4 +125,9 @@ const jwtAuth = async (_: Oak.Context, next: Next) => {
 const generateToken = (): Promise<string> | string => 'jwt token';
 
 export default { jwtAuth, generateToken }
+
+
+// main.ts
+
+const routerBuilder = new RouterBuilder('./controllers', auth.jwtAuth);
 ```
