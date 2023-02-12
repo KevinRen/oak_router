@@ -2,20 +2,20 @@
 
 A Deno-oak based routing extension.
 
-It allows developers to say goodbye to the long handwritten route definition and use the @ oakRouter decorator to describe the route and its method.
+It allows developers to say goodbye to the long handwritten route definition and use the `@oakRouter` decorator to describe the route and its method.
 
 When the oak project is started, it will automatically traverse all the routing classes under the specified folder and automatically register them in the oak Router. So that oak development can be carried out easily.
 
 ### You can start your oak project development in just two simple steps.
 ```
  controllers
-    └ user
-      └ access.v1.ts
+  └ user
+    └ access.v1.ts
  main.ts
 ```
 
 ### Step 1: create the controllers/user folder in the project and create the access.v1.ts file in the folder
-Use oakRouter decorator to implement two routing methods in Access class
+Use `oakRouter` decorator to implement two routing methods in Access class
 
 ```typescript
 // access.v1.ts
@@ -104,7 +104,7 @@ deno run --allow-net --allow-read main.ts
 RouterBuild done. 2 routes completed initialization... 3ms
 ```
 
-> controllers/user/access.v1.ts => /user/access/v1/login
+> `controllers/user/access.v1.ts` => `/user/access/v1/login`
 
 RouterBuilder will convert the folder name and file name under controllers into api access path to avoid too deep project directory level leading to huge project
 
