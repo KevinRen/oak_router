@@ -1,5 +1,5 @@
-import { Oak, oakRouter } from '../../deps.ts';
-import auth from '../../middleware/auth.ts'
+import { Oak, oakRouter } from '../../../deps.ts';
+import auth from '../../../middleware/auth.ts';
 
 class Access {
 
