@@ -34,8 +34,8 @@ class Access {
   @oakRouter({
     method: 'POST',
     auth: false
-	})
-	async login({ response }: { response: Oak.Response }) {
+  })
+  async login({ response }: { response: Oak.Response }) {
     response.status = 200;
     response.body = {
       status: true,
@@ -48,8 +48,8 @@ class Access {
   // create a GET routing method with auth authentication
   @oakRouter({
     method: 'GET',
-	})
-	detail({ response }: { response: Oak.Response }) {
+  })
+  detail({ response }: { response: Oak.Response }) {
     response.status = 200;
     response.body = {
       status: true,
