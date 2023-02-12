@@ -5,4 +5,6 @@ const jwtAuth = async (_: Oak.Context, next: Next) => {
   await next();
 }
 
-export default { jwtAuth }
+const generateToken = (): Promise<string> | string => 'jwt token';
+
+export default { jwtAuth, generateToken }

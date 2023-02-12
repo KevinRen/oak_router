@@ -66,7 +66,7 @@ export class RouterBuilder {
     });
     const ms = Date.now() - this.startTime;
 
-    setTimeout(() => console.log(green(`\nRouterBuild done. ${ this.routerCount }个路由完成初始化... ${ ms }ms\n`)), 0);
+    setTimeout(() => console.log(green(`\nRouterBuild done. ${ this.routerCount } routes completed initialization... ${ ms }ms\n`)), 0);
   }
 
   private async disassemble(controllerDirPath: string, dirName?: string): Promise<RouteMapItem[]> {
@@ -93,7 +93,7 @@ export class RouterBuilder {
               routers.push(item);
             });
           } else {
-            console.log(red('模块中不是一个类'));
+            console.log(red('[✕] The route in the module is not a class'));
           }
         });
       }
