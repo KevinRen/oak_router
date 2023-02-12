@@ -77,7 +77,7 @@ export class RouterBuilder {
     for (const dirEntry of Deno.readDirSync(controllerPath)) {
       if (dirEntry.isDirectory) {
         const subPath = `${ controllerDirPath }/${ dirEntry.name }`;
-        routers = [...routers, ...await this.disassemble(subPath, dirEntry.name)];
+        routers = [...routers, ...await this.disassemble(subPath, dirName ? `${ dirName }/${ dirEntry.name }` : dirEntry.name)];
       } else if (dirEntry.isFile) {
         const controller: Module | RouterClass = await import(`file://${ controllerPath }/${ dirEntry.name }`);
         const module: RouterClass = Object.keys(controller).includes('default') ? (controller as Module).default : controller as RouterClass;
