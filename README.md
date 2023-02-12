@@ -101,7 +101,7 @@ deno run --allow-net --allow-read main.ts
 /Users/yourPath/oak_router/example/controllers/user/access.v1.ts => [POST] /user/access/v1/login
 /Users/yourPath/oak_router/example/controllers/user/access.v1.ts => [GET] /user/access/v1/detail
 
-RouterBuild done. 4 routes completed initialization... 3ms
+RouterBuild done. 2 routes completed initialization... 3ms
 ```
 
 > controllers/user/access.v1.ts => /user/access/v1/login
