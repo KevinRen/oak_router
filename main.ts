@@ -4,6 +4,7 @@ import {
    METHOD_META_KEY,
    AUTH_META_KEY,
    FUN_META_KEY,
+   ID_META_KEY,
    Module,
    RouterClass,
    isClass,
@@ -11,10 +12,9 @@ import {
    RouteMapItem,
    RouterMethodType,
    Middleware,
-   Next,
-ID_META_KEY
+   Next
  } from './utils.ts';
-import { Oak, Reflect, red, green } from './deps.ts';
+import { Oak, Reflect, red, green, path } from './deps.ts';
 
 export class RouterBuilder {
 
@@ -80,23 +80,26 @@ export class RouterBuilder {
         const subPath = `${ controllerDirPath }/${ dirEntry.name }`;
         routers = [...routers, ...await this.disassemble(subPath, dirName ? `${ dirName }/${ dirEntry.name }` : dirEntry.name)];
       } else if (dirEntry.isFile) {
-        const controller: Module | RouterClass = await import(`file://${ controllerPath }/${ dirEntry.name }`);
-        const module: RouterClass = Object.keys(controller).includes('default') ? (controller as Module).default : controller as RouterClass;
+        const extName = path.extname(path.join(controllerPath, dirEntry.name));
+        if (extName === '.ts' || extName === '.js') {
+          const controller: Module | RouterClass = await import(`file://${ controllerPath }/${ dirEntry.name }`);
+          const module: RouterClass = Object.keys(controller).includes('default') ? (controller as Module).default : controller as RouterClass;
 
-        Object.values(module).forEach(item => {
-          if (isClass(item)) {
-            const routerPath = `/${ dirName ? `${ dirName }/` : '' }${ dirEntry.name.substring(0, dirEntry.name.length - 3).split('.').join('/') }`;
-            const metaRouters: RouteMapItem[] = this.routerBuiler(new item());
+          Object.values(module).forEach(item => {
+            if (isClass(item)) {
+              const routerPath = `/${ dirName ? `${ dirName }/` : '' }${ dirEntry.name.substring(0, dirEntry.name.length - 3).split('.').join('/') }`;
+              const metaRouters: RouteMapItem[] = this.routerBuiler(new item());
 
-            metaRouters.forEach((item: RouteMapItem) => {
-              item.router = `${ routerPath }/${ item.handle }${ item.withId ? '/:id' : '' }`;
-              item.dirEntry = `${ dirName ? `${ dirName }/` : '' }${ dirEntry.name }`;
-              routers.push(item);
-            });
-          } else {
-            console.log(red('[✕] The route in the module is not a class'));
-          }
-        });
+              metaRouters.forEach((item: RouteMapItem) => {
+                item.router = `${ routerPath }/${ item.handle }${ item.withId ? '/:id' : '' }`;
+                item.dirEntry = `${ dirName ? `${ dirName }/` : '' }${ dirEntry.name }`;
+                routers.push(item);
+              });
+            } else {
+              console.log(red('[✕] The route in the module is not a class'));
+            }
+          });
+        }
       }
     }
 
