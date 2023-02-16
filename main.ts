@@ -11,7 +11,8 @@ import {
    RouteMapItem,
    RouterMethodType,
    Middleware,
-   Next
+   Next,
+ID_META_KEY
  } from './utils.ts';
 import { Oak, Reflect, red, green } from './deps.ts';
 
@@ -88,7 +89,7 @@ export class RouterBuilder {
             const metaRouters: RouteMapItem[] = this.routerBuiler(new item());
 
             metaRouters.forEach((item: RouteMapItem) => {
-              item.router = `${ routerPath }/${ item.handle }`;
+              item.router = `${ routerPath }/${ item.handle }${ item.withId ? '/:id' : '' }`;
               item.dirEntry = `${ dirName ? `${ dirName }/` : '' }${ dirEntry.name }`;
               routers.push(item);
             });
@@ -112,9 +113,10 @@ export class RouterBuilder {
       const method = Reflect.getMetadata(METHOD_META_KEY, fn);
       const auth = Reflect.getMetadata(AUTH_META_KEY, fn);
       const handle = Reflect.getMetadata(FUN_META_KEY, fn);
+      const withId = Reflect.getMetadata(ID_META_KEY, fn);
 
       if (method && handle) {
-        result.push({ method, fn, handle, auth });
+        result.push({ method, fn, handle, auth, withId });
       }
     });
 
@@ -125,8 +127,10 @@ export class RouterBuilder {
 export function oakRouter(info: RouterMethodType = {}): Function {
 	return function<Function>(_: Target, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>) {
 		const auth: boolean = info.method === 'PUT' || info.method === 'DELETE' ? true : info.auth ?? true;
-		Reflect.defineMetadata(METHOD_META_KEY, info.method ?? 'POST', descriptor.value!);
-		Reflect.defineMetadata(AUTH_META_KEY, auth, descriptor.value!);
-		Reflect.defineMetadata(FUN_META_KEY, propertyKey, descriptor.value!);
+    const withId: boolean = info.withId ?? false;
+		Reflect.defineMetadata(METHOD_META_KEY, info.method ?? 'POST', descriptor.value);
+		Reflect.defineMetadata(AUTH_META_KEY, auth, descriptor.value);
+		Reflect.defineMetadata(FUN_META_KEY, propertyKey, descriptor.value);
+    Reflect.defineMetadata(ID_META_KEY, withId, descriptor.value);
 	}
 }
