@@ -131,3 +131,27 @@ export default { jwtAuth, generateToken }
 
 const routerBuilder = new RouterBuilder('./controllers', auth.jwtAuth);
 ```
+
+### oakRouter withId
+>The following example serves up a RESTful service of a map of books, where /book/ will return an array of books and /book/1 would return the book with ID "1"
+
+```typescript
+import { Oak, oakRouter } from 'https://deno.land/x/oak_router@VERSION/mod.ts';
+
+export class WebAccess {
+
+  @oakRouter({
+    method: 'GET',
+    withId: true
+  })
+  book(context: Oak.Context) {
+    context.response.status = 200;
+    context.response.body = {
+      status: true,
+      data: {
+        id: Number(context.params?.id),
+      },
+    }
+  }
+}
+```
