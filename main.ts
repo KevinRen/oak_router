@@ -127,7 +127,7 @@ export class RouterBuilder {
   }
 }
 
-export function oakRouter(info: RouterMethodType = {}): Function {
+export function oakRouter(info: RouterMethodType = {}) {
 	return function<Function>(_: Target, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>) {
 		const auth: boolean = info.method === 'PUT' || info.method === 'DELETE' ? true : info.auth ?? true;
     const withId: boolean = info.withId ?? false;
