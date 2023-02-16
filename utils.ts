@@ -27,6 +27,7 @@ export function isClass(input: any): boolean {
 export const METHOD_META_KEY = Symbol('method');
 export const AUTH_META_KEY = Symbol('auth');
 export const FUN_META_KEY = Symbol('handle');
+export const ID_META_KEY = Symbol('id');
 
 export interface RouteMapItem {
 	router?: string;
@@ -35,9 +36,11 @@ export interface RouteMapItem {
 	fn: Middleware;
 	handle: string;
 	auth: boolean;
+	withId: boolean;
 }
 
 export interface RouterMethodType {
 	method?: Method;
 	auth?: boolean;
+	withId?: boolean;
 }
