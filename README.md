@@ -138,6 +138,14 @@ const routerBuilder = new RouterBuilder('./controllers', auth.jwtAuth);
 ```typescript
 import { Oak, oakRouter } from 'https://deno.land/x/oak_router@VERSION/mod.ts';
 
+interface OakContext extends Oak.Context {
+  params?: {
+    id?: number;
+  };
+}
+
+type Context = OakContext;
+
 export class WebAccess {
 
   @oakRouter({
