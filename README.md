@@ -152,7 +152,7 @@ export class WebAccess {
     method: 'GET',
     withId: true
   })
-  book(context: Oak.Context) {
+  book(context: Context) {
     context.response.status = 200;
     context.response.body = {
       status: true,
